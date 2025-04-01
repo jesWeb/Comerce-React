@@ -1,17 +1,26 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Automovil from "./components/automovil";
 import Header from "./components/header";
 import { db } from "./data/db";
 
 function App() {
-  //esatdo de button
-  const [carrito, setCarrito] = useState([]);
+  //localstorage
+  const local = () => {
+    const localstorageCar = localStorage.getItem('carro');
+    return localstorageCar ? JSON.parse(localstorageCar) : [];
+  };
+
+  //esatdo de button antes era un arreglo pero por el lcal storage cambia 
+  const [carrito, setCarrito] = useState(local);
 
   //extraer data
   const data = db;
-  // console.log("====================================");
   // console.log(data);
-  // console.log("====================================");
+  
+  useEffect(() => {
+  localStorage.setItem('carro',JSON.stringify(carrito))   
+  }, [carrito])
+  
 
   //btn de agregar items
   function addToCar(item) {
