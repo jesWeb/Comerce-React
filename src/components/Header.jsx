@@ -6,11 +6,9 @@ function Header({
   restarCarrito,
   sumarCarrito,
   limpiar,
+  carTotal
 }) {
-  //operacion de carrito del costo final
-  const carTotal = carrito.reduce((total, { quantity, price }) => {
-    return total + quantity * price;
-  }, 0);
+ 
 
   return (
     <div>
