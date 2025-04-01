@@ -1,6 +1,6 @@
 import React from "react";
 
-const Automovil = ({ automovil }) => {
+const Automovil = ({ automovil, button }) => {
   //manejo de props de otra forma
   const { name, image, brand, price, topSpeed, year } = automovil;
 
@@ -20,7 +20,11 @@ const Automovil = ({ automovil }) => {
           <p className="fw-black text-primary fs-3">
             U$S - {price.toLocaleString()}
           </p>
-          <button type="button" className="btn btn-dark w-100">
+          <button
+            onClick={() => button(automovil)}
+            type="button"
+            className="btn btn-dark w-100"
+          >
             Agregar al Carrito
           </button>
         </div>

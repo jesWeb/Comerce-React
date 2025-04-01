@@ -1,6 +1,17 @@
 import React from "react";
 
-function Header() {
+function Header({
+  carrito,
+  removeCars,
+  restarCarrito,
+  sumarCarrito,
+  limpiar,
+}) {
+  //operacion de carrito del costo final
+  const carTotal = carrito.reduce((total, { quantity, price }) => {
+    return total + quantity * price;
+  }, 0);
+
   return (
     <div>
       <header className="py-3 header">
@@ -24,55 +35,80 @@ function Header() {
                     alt="imagen carrito"
                   />
                   <div id="carrito-content" className="carrito-content">
-                    <p className="text-center">El carrito está vacío</p>
-                    <table className="w-100 table">
-                      <thead>
-                        <tr>
-                          <th>Imagen</th>
-                          <th>Nombre</th>
-                          <th>Precio</th>
-                          <th>Cantidad</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td className="align-middle">
-                            <img
-                              className="img-fluid"
-                              src="./public/img/aspark owl.jpg"
-                              alt="imagen automóvil"
-                            />
-                          </td>
-                          <td className="align-middle">Nombre</td>
-                          <td className="fw-bold align-middle">$1.000.000</td>
-                          <td className="align-middle">
-                            <div className="d-flex align-items-center gap-4">
-                              <button type="button" className="btn btn-dark">
-                                -
-                              </button>
-                              1
-                              <button type="button" className="btn btn-dark">
-                                +
-                              </button>
-                            </div>
-                          </td>
-                          <td className="align-middle border-top-0">
-                            <button
-                              type="button"
-                              className="btn-close"
-                              aria-label="Close"
-                            ></button>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                    <p className="text-end">
-                      Total a pagar:{" "}
-                      <span className="fw-bold">$ 1.000.000</span>
-                    </p>
-                    <button className="btn btn-dark w-100 mt-3 p-2">
-                      Vaciar Carrito
-                    </button>
+                    {carrito.length === 0 ? (
+                      <p className="text-center">El carrito está vacío</p>
+                    ) : (
+                      <>
+                        <table className="w-100 table">
+                          <thead>
+                            <tr>
+                              <th>Imagen</th>
+                              <th>Nombre</th>
+                              <th>Precio</th>
+                              <th>Cantidad</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {carrito.map(
+                              ({ id, image, name, price, quantity }) => (
+                                <tr key={id}>
+                                  <td className="align-middle">
+                                    <img
+                                      className="img-fluid"
+                                      src={`/img/${image}.jpg`}
+                                      alt="imagen automóvil"
+                                    />
+                                  </td>
+                                  <td className="align-middle">{name}</td>
+                                  <td className="fw-bold align-middle">
+                                    ${price}
+                                  </td>
+                                  <td className="align-middle">
+                                    <div className="d-flex align-items-center gap-4">
+                                      <button
+                                        type="button"
+                                        className="btn btn-dark"
+                                        onClick={() => restarCarrito(id)}
+                                      >
+                                        -
+                                      </button>
+                                      {quantity}
+                                      <button
+                                        type="button"
+                                        className="btn btn-dark"
+                                        onClick={() => sumarCarrito(id)}
+                                      >
+                                        +
+                                      </button>
+                                    </div>
+                                  </td>
+                                  <td className="align-middle border-top-0">
+                                    <button
+                                      type="button"
+                                      className="btn-close"
+                                      aria-label="Close"
+                                      onClick={() => removeCars(id)}
+                                    ></button>
+                                  </td>
+                                </tr>
+                              )
+                            )}
+                          </tbody>
+                        </table>
+                        <p className="text-end">
+                          Total a pagar:{" "}
+                          <span className="fw-bold">
+                            $ {carTotal.toLocaleString()}
+                          </span>
+                        </p>
+                        <button
+                          className="btn btn-dark w-100 mt-3 p-2"
+                          onClick={limpiar}
+                        >
+                          Vaciar Carrito
+                        </button>
+                      </>
+                    )}
                   </div>
                 </div>
               </div>
